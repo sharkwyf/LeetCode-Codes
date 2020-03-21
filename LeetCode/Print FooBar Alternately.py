@@ -27,15 +27,4 @@ class FooBar:
             printBar()
             self.foolock.release()
 
-a = FooBar(10)
-_thread.start_new_thread(a.foo, )
-_thread.start_new_thread()
 
-
-
-# a = Solution()
-# b = a.accountsMerge(
-#     [["John", "johnsmith@mail.com", "john_newyork@mail.com"], ["John", "johnsmith@mail.com", "john00@mail.com"],
-#      ["Mary", "mary@mail.com"], ["John", "johnnybravo@mail.com"]]
-# )
-# print(b)
