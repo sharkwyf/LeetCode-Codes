@@ -1,32 +1,34 @@
 #!/usr/bin/python3
 # Filename: test.py
-from collections import deque
-import null as null
-
-
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
+import collections
+from typing import List
 
 
 class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        pindex = root.index(p)
-        qindex = root.index(q)
-        while pindex != qindex:
-            if pindex > qindex:
-                pindex = (pindex + 1) // 2 - 1
+    def search(self, nums: List[int], target: int) -> bool:
+        if not nums:
+            return False
+        len_nums = len(nums)
+        low, high = 0, len_nums - 1
+        while low + 1 < high:
+            mid = (low + high) // 2
+            if nums[low] <= nums[mid] <= nums[high]:
+                high = low
+            elif nums[low] <= nums[mid]:
+                low = mid
+            elif nums[mid] <= nums[high]:
+                high = mid
             else:
-                qindex = (qindex + 1) // 2 - 1
-        return root[pindex]
+                raise
+        arr = nums[high:] + nums[:high]
+        l, r = 0, len_nums
+        while l + 1 < r:
+
+        return False
 
 
 a = Solution()
-b = a.lowestCommonAncestor(
-    [-1, 0, 3, -2, 4, null, null, 8],
-3,
-8
+b = a.search(
+    nums=[2, 5, 6, 0, 0, 1, 2], target=1
 )
 print(b)
