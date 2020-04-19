@@ -3,13 +3,29 @@
 
 class Solution {
 public:
-	int maxScoreSightseeingPair(vector<int>& A) {
-		int m = 0, res = 0;
-		for (int i = 0; i < A.size(); i++) {
-			res = max(res, m + A[i] - i);
-			m = max(m, A[i] + i);
+	int openLock(vector<string>& deadends, string target) {
+		vector<string> visited = deadends;
+		queue<string> q;
+		int step = 0;
+		q.push(target);
+		while (!q.empty()) {
+			step++;
+			for (int i; i < q.size(); i++) {
+				string s = q.front();
+				q.pop();
+				for (int digit = 0; digit < 4; digit++) {
+					string s1 = s, s2 = s;
+					s1[i] = (s1[i] == '9' ? '0' : s1[i] + 1);
+					s2[i] = (s2[i] == '0' ? '9' : s2[i] - 1);
+					if (s1 == target || s2 == target)
+						return step;
+					q.push(s1);
+					q.push(s2);
+				}
+
+			}
 		}
-		return res;
+		return 0;
 	}
 };
 
@@ -18,14 +34,14 @@ int main()
 {
 
 	Solution s;
-	vector<int> v = {
-		{ 8,1,5,2,6 }
+	vector<string> v = {
+		{ "0201", "0101", "0102", "1212", "2002" }
 	};
 	vector<vector<int>> vv = {
 		{1, 2, 3}, {4, 5, 6}, {7, 8, 9} 
 	};
 
-	int res = s.maxScoreSightseeingPair(v);
+	int res = s.openLock(v, "0202");
 
 	return 0;
 }
