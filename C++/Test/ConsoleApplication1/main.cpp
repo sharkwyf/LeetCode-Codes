@@ -3,46 +3,42 @@
 
 class Solution {
 public:
-	int openLock(vector<string>& deadends, string target) {
-		vector<string> visited = deadends;
-		queue<string> q;
-		int step = 0;
-		q.push(target);
-		while (!q.empty()) {
-			step++;
-			for (int i; i < q.size(); i++) {
-				string s = q.front();
-				q.pop();
-				for (int digit = 0; digit < 4; digit++) {
-					string s1 = s, s2 = s;
-					s1[i] = (s1[i] == '9' ? '0' : s1[i] + 1);
-					s2[i] = (s2[i] == '0' ? '9' : s2[i] - 1);
-					if (s1 == target || s2 == target)
-						return step;
-					q.push(s1);
-					q.push(s2);
-				}
-
-			}
-
+	string multiply(string num1, string num2) {
+		string res = "0";
+		int length = num2.length();
+		for (int i = 0; i < length; i++) {
+			res = multiplyX(num1, num2[length - 1 - i]);
 		}
-		return 0;
+		return res;
+	}
+
+	string multiplyX(string num1, char num2) {
+		int c = 0, n2 = num2 - '0';
+		int length = num1.length();
+		vector<char> res(length + 1);
+		for (int i = 0; i < length; i++) {
+			int r = (num1[length - 1 - i] - '0') * n2 + c;
+			c = r / 10;
+			res[length - i] = (r % 10) + '0';
+		}
+		if (c > 0)
+			res[0] = c + '0';
+		return res;
 	}
 };
 
 
 int main()
 {
-
 	Solution s;
 	vector<string> v = {
-		{ "0201", "0101", "0102", "1212", "2002" }
+		{ "8887","8889","8878","8898","8788","8988","7888","9888" }
 	};
 	vector<vector<int>> vv = {
 		{1, 2, 3}, {4, 5, 6}, {7, 8, 9} 
 	};
 
-	int res = s.openLock(v, "0202");
+	string res = s.multiply("", "");
 
 	return 0;
 }
