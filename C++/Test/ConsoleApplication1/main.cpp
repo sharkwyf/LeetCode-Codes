@@ -7,7 +7,7 @@ public:
 		string res = "0";
 		int length = num2.length();
 		for (int i = 0; i < length; i++) {
-			res = multiplyX(num1, num2[length - 1 - i]);
+			res = add(res, multiplyX(num1, num2[length - 1 - i]).append(10, '0'));
 		}
 		return res;
 	}
@@ -23,7 +23,28 @@ public:
 		}
 		if (c > 0)
 			res[0] = c + '0';
-		return res;
+		else
+			res[0] = NULL;
+		string s(res.begin(), res.end());
+		return s;
+	}
+
+	string add(string num1, string num2) {
+		int len1 = num1.length(), len2 = num2.length();
+		int length = max(len1, len2);
+		vector<char> res(length + 1);
+		bool c = false;
+		for (int i = 0; i < length; i++) {
+			int r = (len1 - 1 - i >= 0 ? num1[len1 - 1 - i] - '0' : 0) + (len2 - 1 - i >= 0 ? num1[len2 - 1 - i] - '0' : 0) + c;
+			c = r > 9;
+			res[length - i] = (r % 10) + '0';
+		}
+		if (c)
+			res[0] = '1';
+		else
+			res[0] = NULL;
+		string s(res.begin(), res.end());
+		return s;
 	}
 };
 
@@ -38,7 +59,7 @@ int main()
 		{1, 2, 3}, {4, 5, 6}, {7, 8, 9} 
 	};
 
-	string res = s.multiply("", "");
+	string res = s.multiply("123", "456");
 
 	return 0;
 }
