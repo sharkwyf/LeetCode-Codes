@@ -1,50 +1,45 @@
 #include "LeetCode.h"
 
 
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+ 
 class Solution {
 public:
-	string multiply(string num1, string num2) {
-		string res = "0";
-		int length = num2.length();
-		for (int i = 0; i < length; i++) {
-			res = add(res, multiplyX(num1, num2[length - 1 - i]).append(10, '0'));
-		}
-		return res;
-	}
+	vector<int> nextLargerNodes(ListNode* head) {
+		vector<int> res;
+		unordered_map<int, ListNode*> dict;
+		unordered_map<int, ListNode*>::iterator it;
+		int last = 0;
+		while (head->val > 0) {
+			res.push_back(0);
+			if (last >= head->val) {
 
-	string multiplyX(string num1, char num2) {
-		int c = 0, n2 = num2 - '0';
-		int length = num1.length();
-		vector<char> res(length + 1);
-		for (int i = 0; i < length; i++) {
-			int r = (num1[length - 1 - i] - '0') * n2 + c;
-			c = r / 10;
-			res[length - i] = (r % 10) + '0';
-		}
-		if (c > 0)
-			res[0] = c + '0';
-		else
-			res[0] = NULL;
-		string s(res.begin(), res.end());
-		return s;
-	}
+			}
+			else {
+				vector<int> keys;
+				for (it = dict.begin(); it != dict.end(); it++) {
+					keys.push_back(it->first);
+				}
+				for (int k : keys) {
+					ListNode *p = dict[k];
+					while (res[p->val] == 0) {
+						if (p->val)
+						{
 
-	string add(string num1, string num2) {
-		int len1 = num1.length(), len2 = num2.length();
-		int length = max(len1, len2);
-		vector<char> res(length + 1);
-		bool c = false;
-		for (int i = 0; i < length; i++) {
-			int r = (len1 - 1 - i >= 0 ? num1[len1 - 1 - i] - '0' : 0) + (len2 - 1 - i >= 0 ? num1[len2 - 1 - i] - '0' : 0) + c;
-			c = r > 9;
-			res[length - i] = (r % 10) + '0';
+						}
+						k++;
+					}
+				}
+			}
+
+			last = head->val;
+			head = head->next;
 		}
-		if (c)
-			res[0] = '1';
-		else
-			res[0] = NULL;
-		string s(res.begin(), res.end());
-		return s;
+
 	}
 };
 
@@ -52,14 +47,14 @@ public:
 int main()
 {
 	Solution s;
-	vector<string> v = {
-		{ "8887","8889","8878","8898","8788","8988","7888","9888" }
-	};
-	vector<vector<int>> vv = {
-		{1, 2, 3}, {4, 5, 6}, {7, 8, 9} 
+	vector<vector<int>> v1 =
+		{{1, 0}, {2, 1}, {3, 1}, {3, 7}, {4, 3}, {5, 3}, {6, 3}}
+	;
+	vector<int> vv = {
+		{3,2,5,4,6,1,7,0}
 	};
 
-	string res = s.multiply("123", "456");
+	vector<int> res = s.loudAndRich(v1, vv);
 
 	return 0;
 }
