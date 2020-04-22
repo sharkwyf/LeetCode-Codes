@@ -1,44 +1,25 @@
 #include "LeetCode.h"
 
 
- 
 class Solution {
 public:
-	vector<int> nextLargerNodes(ListNode* head) {
-		vector<int> res;
-		unordered_map<int, ListNode*> dict;
-		unordered_map<int, ListNode*>::iterator it;
-		int last = 0;
-		int index = 0;
-		while (head != NULL && head->val > 0) {
-			res.push_back(0);
-			if (last < head->val) {
-				vector<int> keys;
-				for (it = dict.begin(); it != dict.end(); it++) {
-					keys.push_back(it->first);
+	ListNode* removeZeroSumSublists(ListNode* head) {
+		unordered_map<int, vector<ListNode*>> map;
+		int s = 0;
+		ListNode *cur = new ListNode(0);
+		cur->next = head;
+		head = cur;
+		while (cur) {
+			s += cur->val;
+			if (!map[s].empty()) {
+				for (auto p : map[s]) {
+					p->next = cur->next;
 				}
-				for (int k : keys) {
-					ListNode *p = dict[k];
-					int id = k;
-					while (p != head && res[k] == 0) {
-						if (p->val < head->val)
-						{
-							res[k] = head->val;
-						}
-						p = p->next;
-						k++;
-					}
-					if (dict[id]->val < head->val)
-						dict.erase(id);
-				}
-				dict[index] = head;
 			}
-
-			last = head->val;
-			head = head->next;
-			index++;
+			map[s].push_back(cur);
+			cur = cur->next;
 		}
-		return res;
+		return head->next;
 	}
 };
 
@@ -49,26 +30,25 @@ int main()
 	vector<vector<int>> v1 =
 		{{1, 0}, {2, 1}, {3, 1}, {3, 7}, {4, 3}, {5, 3}, {6, 3}}
 	;
-	vector<int> vv = {
-		{3,2,5,4,6,1,7,0}
+	vector<int> vv1 = {
+		{1,3,2,-3,-2,5,5,-5,1}
+	};
+	vector<int> vv2 = {
+		{ 9,3,15,20,7}
 	};
 
-	ListNode *head = new ListNode(-1),
-		*n0 = new ListNode(2),
-		n1 = ListNode(1),
-		n2 = ListNode(5),
-		n3 = ListNode(3),
-		n4 = ListNode(5),
-		n5 = ListNode(0);
-	n0->next = &n1;
-	n1.next = &n2;
-	//n2.next = &n5;
-	//n2.next = &n3;
-	n3.next = &n4;
-	n4.next = &n5;
+#pragma region ListNode Inputs
+	int size = vv1.size();
+	vector<ListNode*> nodes(size);
+	for (int i = size - 1; i >= 0; i--) {
+		nodes[i] = new ListNode(vv1[i]);
+		if (i < size - 1)
+			nodes[i]->next = nodes[i + 1];
+	}
+#pragma endregion
 
 
-	vector<int> res = s.nextLargerNodes(n0);
+	auto res = s.removeZeroSumSublists(nodes[0]);
 
 	return 0;
 }
