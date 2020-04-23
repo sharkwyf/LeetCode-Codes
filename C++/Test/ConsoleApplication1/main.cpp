@@ -1,44 +1,47 @@
 #include "LeetCode.h"
 
 
-class Solution {
+class NumMatrix {
+protected:
+	vector<vector<int>> sums;
+
 public:
-	vector<int> numMovesStonesII(vector<int>& stones) {
-		int N = stones.size();
-		sort(stones.begin(), stones.end());
-		int j = 0;
-		int lres = INT32_MAX;
-		for (int i = 0; i < N; i++) {
-			if (stones[i] + N - 1 > stones[N - 1])
-				break;
-			while (j < N && stones[j] < stones[i] + N) {
-				j++;
+	NumMatrix(vector<vector<int>>& matrix) {
+		int h = matrix.size();
+		if (h == 0)
+			return;
+		int w = matrix[0].size();
+		if (w == 0)
+			return;
+		vector<int> row(w + 1, 0);
+		sums.push_back(row);
+		for (int i = 0; i < h; i++) {
+			row = { 0 };
+			for (int j = 1; j < w + 1; j++) {
+				row.push_back(row[j - 1] + sums[i][j] - sums[i][j - 1] + matrix[i][j - 1]);
 			}
-			if (i == 0 && j == N - 1)
-				lres = min(lres, 2);
-			else
-				lres = min(lres, N - j + i);
+			sums.push_back(row);
 		}
-		int hres = 0;
-		if (stones[1] + N - 2 != stones[N - 1]) {
-			hres = max(hres, stones[N - 1] - (N - 1) - stones[1] + 1);
-		}
-		if (stones[0] + N - 2 != stones[N - 2]) {
-			hres = max(hres, stones[N - 2] - (stones[0] + N - 1) + 1);
-		}
-		return { lres, hres };
+	}
+
+	int sumRegion(int row1, int col1, int row2, int col2) {
+		int a = sums[row2 + 1][col2 + 1];
+		int b = sums[row1 + 1][col1 + 1];
+		int c = sums[row1 + 1][col2 + 1];
+		int d = sums[row2 + 1][col1 + 1];
+		return sums[row2 + 1][col2 + 1] + sums[row1][col1]
+			- sums[row1][col2 + 1] - sums[row2 + 1][col1];
 	}
 };
 
 
 int main()
 {
-	Solution s;
-	vector<vector<int>> v1 =
-		{{1, 0}, {2, 1}, {3, 1}, {3, 7}, {4, 3}, {5, 3}, {6, 3}}
-	;
+	//Solution s;
+	vector<vector<int>> v1 = { {}
+	};
 	vector<int> vv1 = {
-		{6,5,4,3,10}
+		-3,2,-3,4,2
 	};
 	vector<int> vv2 = {
 		{ 9,3,15,20,7}
@@ -48,15 +51,18 @@ int main()
 	//int size = vv1.size();
 	//vector<ListNode*> nodes(size);
 	//for (int i = size - 1; i >= 0; i--) {
-	//	nodes[i] = new ListNode(vv1[i]);
+	//	nodes{i] = new ListNode(vv1[i]);
 	//	if (i < size - 1)
 	//		nodes[i]->next = nodes[i + 1];
 	//}
 #pragma endregion
 
 
-	auto res = s.numMovesStonesII(vv1);
+	//auto res = s.longestPalindrome("AAabccccdd");
 
+
+	NumMatrix* obj = new NumMatrix(v1);
+	int param_1 = obj->sumRegion(2, 1, 4, 3);
 	return 0;
 }
 
