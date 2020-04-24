@@ -1,47 +1,24 @@
 #include "LeetCode.h"
 
 
-class NumMatrix {
-protected:
-	vector<vector<int>> sums;
-
+class Solution {
 public:
-	NumMatrix(vector<vector<int>>& matrix) {
-		int h = matrix.size();
-		if (h == 0)
-			return;
-		int w = matrix[0].size();
-		if (w == 0)
-			return;
-		vector<int> row(w + 1, 0);
-		sums.push_back(row);
-		for (int i = 0; i < h; i++) {
-			row = { 0 };
-			for (int j = 1; j < w + 1; j++) {
-				row.push_back(row[j - 1] + sums[i][j] - sums[i][j - 1] + matrix[i][j - 1]);
-			}
-			sums.push_back(row);
-		}
-	}
+	int nthSuperUglyNumber(int n, vector<int>& primes) {
+		int l = 1, r = INT32_MAX;
+		while (l < r) {
 
-	int sumRegion(int row1, int col1, int row2, int col2) {
-		int a = sums[row2 + 1][col2 + 1];
-		int b = sums[row1 + 1][col1 + 1];
-		int c = sums[row1 + 1][col2 + 1];
-		int d = sums[row2 + 1][col1 + 1];
-		return sums[row2 + 1][col2 + 1] + sums[row1][col1]
-			- sums[row1][col2 + 1] - sums[row2 + 1][col1];
+		}
 	}
 };
 
 
 int main()
 {
-	//Solution s;
+	Solution s;
 	vector<vector<int>> v1 = { {}
 	};
 	vector<int> vv1 = {
-		-3,2,-3,4,2
+		3,5,7
 	};
 	vector<int> vv2 = {
 		{ 9,3,15,20,7}
@@ -57,12 +34,7 @@ int main()
 	//}
 #pragma endregion
 
-
-	//auto res = s.longestPalindrome("AAabccccdd");
-
-
-	NumMatrix* obj = new NumMatrix(v1);
-	int param_1 = obj->sumRegion(2, 1, 4, 3);
+	auto res = s.largestDivisibleSubset(vv1);
 	return 0;
 }
 
