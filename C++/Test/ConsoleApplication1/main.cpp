@@ -3,11 +3,27 @@
 
 class Solution {
 public:
-	int nthSuperUglyNumber(int n, vector<int>& primes) {
-		int l = 1, r = INT32_MAX;
-		while (l < r) {
-
+	int shortestWay(string source, string target) {
+		int lens = source.length(), lent = target.length();
+		vector<vector<int>> pos(26);
+		for (int i = 0; i < lens; i++) {
+			pos[source[i] - 'a'].push_back(i);
 		}
+		int res = 0;
+		for (int i = 0; i < lent;) {
+			int m = 1;
+			for (int j : pos[target[i] - 'a']) {
+				int k = j, l;
+				for (l = 1; j + l < lens && i + l < lent; l++) {
+					if (source[j + l] != target[i + l])
+						break;
+				}
+				m = max(m, l);
+			}
+			i += m;
+			res++;
+		}
+		return res;
 	}
 };
 
@@ -15,13 +31,14 @@ public:
 int main()
 {
 	Solution s;
-	vector<vector<int>> v1 = { {}
+	vector<vector<int>> v1 = {
+		{1}
 	};
 	vector<int> vv1 = {
-		3,5,7
+		1,2,3,4
 	};
 	vector<int> vv2 = {
-		{ 9,3,15,20,7}
+		0,1,0,1,0,1,0,1
 	};
 
 #pragma region ListNode Inputs
@@ -34,7 +51,8 @@ int main()
 	//}
 #pragma endregion
 
-	auto res = s.largestDivisibleSubset(vv1);
+	auto res = s.shortestWay("xyz", "xzyxz");
+
 	return 0;
 }
 
