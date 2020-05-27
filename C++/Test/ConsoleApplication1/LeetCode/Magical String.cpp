@@ -3,13 +3,8 @@
 
 class Solution {
 public:
-	int magicalString(int n) {
-		string S = "122";
-		int i = 2;
-		while (S.size() < n) {
-			S += string(S[i++] - '0', '3' - S.back() + '0');
-		}
-		return count(S.begin(), S.begin() + n, '1');
+	int makeConnected(int n, vector<vector<int>>& connections) {
+
 	}
 };
 

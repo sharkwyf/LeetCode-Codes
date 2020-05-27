@@ -31,23 +31,6 @@ public:
 	}
 };
 
-#include <iostream>
-using namespace std;
-
-int main() {
-	string s;
-	char c;
-	getline(cin, s);
-	getline(cin, c);
-	int count = 0;
-	for (char ch : s) {
-		if (ch == c)
-			count++;
-	}
-	cout << count << endl;
-	return 0;
-}
-
 int main()
 {
 	Solution s;
@@ -60,13 +43,13 @@ int main()
 	};
 
 #pragma region ListNode Inputs
-	//int size = vv1.size();
-	//vector<ListNode*> nodes(size);
-	//for (int i = size - 1; i >= 0; i--) {
-	//	nodes{i] = new ListNode(vv1[i]);
-	//	if (i < size - 1)
-	//		nodes[i]->next = nodes[i + 1];
-	//}
+	int size = vv1.size();
+	vector<ListNode*> nodes(size);
+	for (int i = size - 1; i >= 0; i--) {
+		nodes[i] = new ListNode(vv1[i]);
+		if (i < size - 1)
+			nodes[i]->next = nodes[i + 1];
+	}
 #pragma endregion
 
 	auto *n0 = new TreeNode(3);
